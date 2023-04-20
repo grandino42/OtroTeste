@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mi Tabla Magica</title>
+
+
+  <!-- style css -->
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<style>
+table, td {
+  border: 1px solid;
+}
+</style>
+<body>
+
+    <h1>Una Tabla mágica</h1>
+    <div>{{name_json}}</div>
+<table>
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Password</th>
+        <th>Birth Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in name_json %}
+      <tr>
+        <td>{{ item["User"] }}</td>
+        <td>{{ item.Password }}</td>
+        <td>{{ item.BirthDate }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mi Tabla Magica</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+  <script>
+
+    var UserURL = "{{url_for('obtener_Usuario')}}";
+
+
+
+  $(document).ready(function(){
+    
+    $("#MyButton").click(function(){
+      
+      // LLamada al API
+
+      $.post(UserURL,'{"User":"'+$(MySearch).val()+'"}', function(data, status){
+
+        // Lo que pasa en el boton con la respuesta
+        var obj = JSON.parse(data);
+
+        // Si no hay datos se pone la leyenda de que no hay datos
+
+        if (obj.length > 0){
+          // Si hay Registros, a contruir la tabla
+          var MyNewTable = "<table class='styled-table'>"+ 
+                                "<thead>"+
+                                    "<tr>"+
+                                        "<th>Usuario</th>"+
+                                        "<th>Password</th>"+
+                                        "<th>Birth Date</th>"+
+                                     "</tr>"+
+                                "</thead>"+
+                                "<tbody>";
+          
+          for (var i = 0; i< obj.length; i++){
+
+            MyNewTable += "<tr>" +
+                              "<td>" + obj[i].User + "</td>"+
+                              "<td>" + obj[i].Password + "</td>"+
+                              "<td>" + obj[i].BirthDate + "</td>"+
+                          "</tr>";
+          }
+
+          MyNewTable += "</tbody>"+
+                            "</table>";
+
+          $(MyDiv).html(MyNewTable);
+
+        }
+        else {
+          $(MyDiv).text("¡¡¡No se encontraror registros!!!")
+        }
+
+      
+    
+    },'json');
+    
+    });
+    
+  });
+  </script>
+
+</head>
+<style>
+table, td {
+  border: 1px solid;
+}
+</style>
+<body>
+
+    <h1>Una Tabla mágica</h1>
+    <p></p>
+    <p></p>
+
+
+  <p></p>
+  <p></p>
+  <input type="search" id="MySearch">
+  <div id="Buttons">
+    <button id="MyButton" class="btn-custom">Presiona Aquí</button>
+  </div>
+  <br>
+  <br>
+  <div id="MyDiv"></div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Día de la semana</title>
+    <style>
+      label, input {
+        display: block;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Día de la semana</h1>
+    <form id="formulario">
+      <label for="fecha">Ingresa una fecha en formato DD/MM/AAAA:</label>
+      <input type="text" id="fecha" name="fecha">
+      <button type="button" onclick="obtenerDiaSemana()">Enviar</button>
+    </form>
+    <div id="resultado"></div>
+    <script>
+      function obtenerDiaSemana() {
+        var fecha = document.getElementById('fecha').value;
+        var data = { fecha: fecha };
+        fetch('/dia-semana', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(json) {
+          var resultado = document.getElementById('resultado');
+          if (json.error) {
+            resultado.innerHTML = 'Error: ' + json.error;
+          } else {
+            resultado.innerHTML = 'La fecha ' + json.fecha + ' cayó en un ' + json.dia_semana;
+          }
+        })
+        .catch(function(error) {
+          var resultado = document.getElementById('resultado');
+          resultado.innerHTML = 'Error: ' + error;
+        });
+      }
+    </script>
+  </body>
+</html>
